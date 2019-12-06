@@ -1,0 +1,26 @@
+{
+  "name": "image-loader",
+  "version": "0.0.1",
+  "description": "loader webpack to resize and compress images",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/alessaloisio/image-loader.git"
+  },
+  "keywords": [
+    "webpack",
+    "loader",
+    "image",
+    "compression",
+    "resize"
+  ],
+  "author": "Aloisio Alessandro",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alessaloisio/image-loader/issues"
+  },
+  "homepage": "https://github.com/alessaloisio/image-loader#readme"
+}
