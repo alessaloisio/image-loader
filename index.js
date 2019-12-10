@@ -1,8 +1,9 @@
 const fs = require("fs");
-const path = require("path");
 
 const imagemin = require("imagemin");
 const Jimp = require("jimp");
+
+const pathOutput = "images";
 
 // Config type files
 const config = {
@@ -28,7 +29,7 @@ const config = {
 module.exports = async function(content) {
   // Verify if buffer or string
   const typeContent = Buffer.isBuffer(content) ? "buffer" : "string";
-  const pathOutput = path.resolve(this._compiler.outputPath, "images");
+
   const fileExt = this.resourcePath.match(/\.([A-Za-z0-9]+)$/)[1];
   const fileName = this.resourcePath
     .split("/")
@@ -55,19 +56,26 @@ module.exports = async function(content) {
     plugins: plugins
   });
 
+  // Resize
   if (fileExt !== "svg") {
-    Jimp.read(image).then(img => {
-      img
-        .scale(0.5)
-        .write(`${pathOutput}/${fileName}.zoomSmall.${img.getExtension()}`);
+    await Jimp.read(content).then(async img => {
+      // Small img
+      const small = img.scale(0.5).quality(60);
+      this.emitFile(
+        `${pathOutput}/${fileName}.zoomSmall.${fileExt}`,
+        await small.getBufferAsync(small._originalMime)
+      );
 
-      img
-        .scale(3)
-        .write(`${pathOutput}/${fileName}.zoomLarge.${img.getExtension()}`);
-
-      callback(null, image);
+      // Large img
+      const large = img.scale(3).quality(60);
+      this.emitFile(
+        `${pathOutput}/${fileName}.zoomLarge.${fileExt}`,
+        await large.getBufferAsync(large._originalMime)
+      );
     });
   }
+
+  callback(null, image);
 };
 
 module.exports.raw = true;
