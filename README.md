@@ -19,7 +19,7 @@ npm i @alessio95/image-loader
         name: 'images/[name].[ext]',
       },
     },
-    'image-loader', // Minify & Resize images
+    '@alessio95/image-loader', // Minify & Resize images
   ],
 },
 ```
